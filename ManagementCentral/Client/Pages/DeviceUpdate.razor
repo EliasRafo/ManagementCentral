@@ -1,5 +1,6 @@
 ﻿﻿
 @page "/deviceupdate/{DeviceId}"
+@using ManagementCentral.Shared.Domain
 
 <h3>Update a Device</h3>
 
@@ -22,8 +23,10 @@
                     <td scope="row">@Device.DeviceId</td>
                     <td scope="row">
                         <InputSelect id="Location" @bind-Value="Device.Location" class="form-control col-md-8">
-                            <option value="Sweden">Sweden</option>
-                            <option value="England">England</option>
+                        @foreach (var location in Enum.GetValues(typeof(Location)))
+                        {
+                            <option value="@location">@location</option>
+                        }
                         </InputSelect>
                     </td>
                     <td>
@@ -35,8 +38,10 @@
                     </td>
                     <td>
                         <InputSelect id="Status" @bind-Value="Device.Status" class="form-control col-md-8">
-                            <option value="online">online</option>
-                            <option value="offline">offline</option>
+                        @foreach (var status in Enum.GetValues(typeof(Status)))
+                        {
+                            <option value="@status">@status</option>
+                        }
                         </InputSelect>
                     </td>
                 </tr>

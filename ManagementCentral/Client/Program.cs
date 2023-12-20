@@ -16,6 +16,9 @@ builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().Cre
 
 builder.Services.AddApiAuthorization();
 
+var apiBaseAddress = "https://localhost:7150";
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseAddress) });
+
 builder.Services.AddSingleton<IDeviceDataService, DeviceDataService>();
 
 await builder.Build().RunAsync();
