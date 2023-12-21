@@ -1,3 +1,4 @@
+using ServiceApi.Endpoints;
 using ManagementCentral.Shared.Domain;
 using Microsoft.Extensions.Options;
 
@@ -9,12 +10,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: specOrigin, policy =>
     {
-        policy.WithOrigins("https://localhost:7084")
+        //policy.WithOrigins("https://localhost:7084")
+        policy.AllowAnyOrigin()
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
 });
-
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -32,37 +33,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 // device
-app.MapGet("/device", () => "Getting a device from API");
+//app.MapGet("/device", () => "Getting a device from API");
 
-app.MapGet("/device/{deviceId}/button/{buttonId}",
-    (int deviceId, int buttonId) => $"Deviceid {deviceId} and ButtonId {buttonId}");
+//app.MapGet("/device/{deviceId}/button/{buttonId}",
+//    (int deviceId, int buttonId) => $"Deviceid {deviceId} and ButtonId {buttonId}");
 
-app.MapGet("/device/{deviceId}", (int deviceId) =>
-{
-    var DeviceService = new DeviceService();
-    return DeviceService.DeviceList[deviceId].DeviceType;
-});
+//app.MapGet("/device/{deviceId}", (int deviceId) =>
+//{
+//    var DeviceService = new DeviceService();
+//    return DeviceService.DeviceList[deviceId].DeviceType;
+//});
+
+app.RegisterUserEndpoint();
 
 app.UseCors(specOrigin);
 app.Run();

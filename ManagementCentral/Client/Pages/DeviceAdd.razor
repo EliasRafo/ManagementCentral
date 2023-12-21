@@ -1,14 +1,19 @@
 ﻿﻿
 @page "/deviceadd"
 @using ManagementCentral.Shared.Domain
+@inject HttpClient Http
 
 <h3>Add Device</h3>
+
+responseData: @responseData
+<br />
+statusCode : @statusCode
 
 <section class="device-edit">
 
     <EditForm Model="@Device" OnValidSubmit="@HandleValidSubmit">
 
-        <DataAnnotationsValidator/>
+        <DataAnnotationsValidator />
 
         <table class="table">
             <thead>
@@ -23,8 +28,6 @@
                 <tr>
                     <td scope="row">
                         <InputSelect id="Location" @bind-Value="Device.Location" class="form-control col-md-8">
-                            @* <option value="Sweden">Sweden</option>
-                            <option value="England">England</option> *@
                             @foreach (var location in Enum.GetValues(typeof(Location)))
                             {
                                 <option value="@location">@location</option>
@@ -35,13 +38,11 @@
                         <InputDate id="Date" @bind-Value="Device.Date" class="form-control col-md-8"></InputDate>
                     </td>
                     <td scope="row">
-                        <InputText id="DeviceType" @bind-Value="Device.DeviceType" class="form-control col-md-8" ></InputText>
-                        <ValidationMessage For ="@(() => Device.DeviceType)"/>
+                        <InputText id="DeviceType" @bind-Value="Device.DeviceType" class="form-control col-md-8"></InputText>
+                        <ValidationMessage For="@(() => Device.DeviceType)" />
                     </td>
                     <td scope="row">
                         <InputSelect id="Status" @bind-Value="Device.Status" class="form-control col-md-8">
-                            @* <option value="online">online</option>
-                            <option value="offline">offline</option> *@
                             @foreach (var status in Enum.GetValues(typeof(Status)))
                             {
                                 <option value="@status">@status</option>
